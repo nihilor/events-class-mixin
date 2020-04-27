@@ -4,7 +4,7 @@
   "description": "A mixin for a simple, reusable Events implementation in Javascript.",
   "main": "index.object.js",
   "scripts": {
-    "test": "node ./tst/simple.js"
+    "test": "node ./examples/menu.assign.js"
   },
   "repository": {
     "type": "git",

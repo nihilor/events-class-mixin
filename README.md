@@ -4,11 +4,46 @@ A mixin for a simple, reusable Events implementation in Javascript.
 
 ## What?
 
-...
+Events follow the publish and subscribe pattern. Sender called publisher emit their messages, receiver called subscriber receive these messages. The benefit: Publisher and subscriber of events do not need to know each other.
 
 ## How?
 
-...
+Publisher and subscriber communicate via an intermediary, the event. The event has a unique name. The receiver just subscribes for a named event and provides a callback. The sender emits a named event and optionally provides additional information. In this case, the `events-class-mixin` works as the intermediary, notifing all subscribers as soon as an event occurs.
+
+Extending a class from `EventsClassMixin`:
+
+```javascript
+const EventsClassMixin = require('events-class-mixin/index.class')
+class AClass extends EventsClassMixin {}
+let   anObject = new AClass()
+```
+
+Compose a class by assigning the object properties:
+
+```javascript
+const eventsMixin = require('events-class-mixin/index.object')
+class AClass {}
+Object.assign(AClass.prototype, eventsMixin)
+let   anObject = new AClass()
+```
+
+Compose an object by assigning the object properties:
+
+```javascript
+const eventsMixin = require('events-class-mixin/index.object')
+let   anObject = {}
+Object.assign(anObject, eventsMixin)
+```
+
+Please note the difference between assigning the events mixin to a class or to an object. For classes you have to add the properties to `prototype`.
+
+```javascript
+class AClass {}
+Object.assign(AClass.prototype, eventsMixin)
+
+let   anObject = {}
+Object.assign(anObject, eventsMixin)
+```
 
 ## Install
 
@@ -40,10 +75,11 @@ ev.subscribe('input', (event, data) => console.log(`the event sent '${event}' an
 
 ### Publish an event
 
-To publish an event, call `publish`. Provide the events name as the first argument and additional data as the second argument.
+To publish an event, call `publish` or its shortform `emit`. Provide the events name as the first argument and additional data as the second argument.
 
 ```javascript
 publish (eventName, eventData)
+emit    (eventName, eventData)
 ```
 
 `publish()` has no return value, because it's a fire-and-forget mechanism.
@@ -73,7 +109,31 @@ ev.off(subscriptionId, 'input')
 
 ## Example
 
-...
+In `./examples/menu.js` you will find a very simple example mimicking a menu. The example is not representative, but explains the functionality of Events and the pub-sub-pattern very clearly. First of all the script creates a subscription to `click`, providing a callback that simply logs the received value. In the second step it creates an subscription to `input`, provides an additional parameter with the value `email` and logs the received values to the console. Last but not least, the both subscriptions will be revoked, so the finally emitted events won't trigger any output.
+
+```javascript
+const EventsClassMixin = require('../index.class.js')
+class Menu extends EventsClassMixin {}
+let   menu = new Menu()
+
+//  create a subscription for 'click'
+let clickId = menu.subscribe('click', event => console.log(`Item clicked: ${event}`))
+//  publish an event 'click'
+menu.publish('click', 'main')
+
+//  create a subscription for 'input'
+let inputId = menu.on('input', (event, data) => console.log(`The value for ${data} is '${event}'`), 'email')
+//  publish an event 'input'
+menu.emit('input', 'john@apple.seed')
+
+//  unsubscribe from 'click' and publish an event 'click'
+menu.unsubscribe(clickId, 'click')
+menu.publish('click', 'no subscriber available')
+
+//  unsubscribe from 'input' and publish an event 'input'
+menu.off(inputId, 'input')
+menu.emit('input', 'no subscriber available')
+```
 
 ## LICENSE
 

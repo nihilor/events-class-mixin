@@ -9,14 +9,14 @@ let errorMessages = {
     21: '.publish() expects a string for the event name.'
 }
 
-class EventsClassMixin {
-    _subscriptions = {}
+let eventsMixin = {
+    _subscriptions: {},
 
-    on () {
+    on: function () {
         return this.subscribe.apply(this, arguments)
-    }
+    },
 
-    subscribe (eventName, subscriptionCallback, ...subscriptionParams) {
+    subscribe: function (eventName, subscriptionCallback, ...subscriptionParams) {
         //  check
         if (arguments.length < 2)
             throw new Error(errorMessages[1])
@@ -38,13 +38,13 @@ class EventsClassMixin {
         })
 
         return subscriptionId
-    }
+    },
 
-    off () {
+    off: function () {
         this.unsubscribe.apply(this, arguments)
-    }
+    },
 
-    unsubscribe (subscriptionId, eventName) {
+    unsubscribe: function (subscriptionId, eventName) {
         //  check
         if (arguments.length !== 2)
             throw new Error(errorMessages[10])
@@ -56,13 +56,13 @@ class EventsClassMixin {
         //  remove subscription
         if (eventName in this._subscriptions)
             this._subscriptions[eventName] = this._subscriptions[eventName].filter(subscription => subscription.id !== subscriptionId)
-    }
+    },
 
-    emit () {
+    emit: function () {
         this.publish.apply(this, arguments)
-    }
+    },
 
-    publish (eventName, ...eventParams) {
+    publish: function (eventName, ...eventParams) {
         //  check
         if (arguments.length < 1)
             throw new Error(errorMessages[20])
@@ -78,4 +78,4 @@ class EventsClassMixin {
     }
 }
 
-module.exports = EventsClassMixin
+module.exports = eventsMixin
