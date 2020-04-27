@@ -1,12 +1,20 @@
 {
   "name": "events-class-mixin",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A mixin for a simple, reusable Events implementation in Javascript.",
+  "main": "index.object.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./tst/simple.js"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nihilor/events-class-mixin.git"
+  },
+  "keywords": ["events", "subscriptions", "mixin", "pattern"],
   "author": "Mark Lubkowitz <me@mlu.io>",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nihilor/events-class-mixin/issues"
+  },
+  "homepage": "https://github.com/nihilor/events-class-mixin#readme"
 }
