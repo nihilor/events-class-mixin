@@ -1,6 +1,6 @@
 {
   "name": "events-class-mixin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A mixin for a simple, reusable Events implementation in Javascript.",
   "main": "index.object.js",
   "scripts": {
