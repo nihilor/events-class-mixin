@@ -1,14 +1,3 @@
-let errorMessages = {
-    1:  `.subscribe() expects at least two arguments, the event name and the subscription callback.`,
-    2:  '.subscribe() expects a string for the event name.',
-    3:  '.subscribe() expects a function for the subscription callback.',
-    10: '.unsubscribe() expects exactly two arguments, the subscription id and the event name.',
-    11: '.unsubscribe() expects a Symbol for the subscription id.',
-    12: '.unsubscribe() expects a string for the event name.',
-    20: '.publish() expects at least one argument, the event name.',
-    21: '.publish() expects a string for the event name.'
-}
-
 class EventsClassMixin {
     _subscriptions = {}
 
@@ -19,11 +8,11 @@ class EventsClassMixin {
     subscribe (eventName, subscriptionCallback, ...subscriptionParams) {
         //  check
         if (arguments.length < 2)
-            throw new Error(errorMessages[1])
+            throw new Error(`.subscribe() expects at least two arguments, the event name and the subscription callback.`)
         if (typeof arguments[0] !== 'string')
-            throw new TypeError(errorMessages[2])
+            throw new TypeError('.subscribe() expects a string for the event name.')
         if (typeof arguments[1] !== 'function')
-            throw new TypeError(errorMessages[3])
+            throw new TypeError('.subscribe() expects a function for the subscription callback.')
 
         //  register event
         if (eventName in this._subscriptions === false)
@@ -47,11 +36,11 @@ class EventsClassMixin {
     unsubscribe (subscriptionId, eventName) {
         //  check
         if (arguments.length !== 2)
-            throw new Error(errorMessages[10])
+            throw new Error('.unsubscribe() expects exactly two arguments, the subscription id and the event name.')
         if (typeof arguments[0] !== 'symbol')
-            throw new TypeError(errorMessages[11])
+            throw new TypeError('.unsubscribe() expects a Symbol for the subscription id.')
         if (typeof arguments[1] !== 'string')
-            throw new TypeError(errorMessages[12])
+            throw new TypeError('.unsubscribe() expects a string for the event name.')
         
         //  remove subscription
         if (eventName in this._subscriptions)
@@ -65,9 +54,9 @@ class EventsClassMixin {
     publish (eventName, ...eventParams) {
         //  check
         if (arguments.length < 1)
-            throw new Error(errorMessages[20])
+            throw new Error('.publish() expects at least one argument, the event name.')
         if (typeof arguments[0] !== 'string')
-            throw new TypeError(errorMessages[21])
+            throw new TypeError('.publish() expects a string for the event name.')
 
         //  pick up latches
         if (eventName in this._subscriptions) {
